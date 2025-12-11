@@ -169,7 +169,7 @@ You could create a subfolder in jarvis, but this mixes planning with development
 2. Create new project:
    - Platform: Next.js
    - Name: torqr-mvp
-3. Copy DSN (Data Source Name)
+3. Copy DSN (Data Source Name) https://81da3e96805fc318440d57e97ef01b5c@o4510517828976640.ingest.de.sentry.io/4510517832056912
 
 **What you'll get:**
 - 5,000 errors/month free
