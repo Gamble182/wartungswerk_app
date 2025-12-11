@@ -1,4 +1,4 @@
-# Technical Architecture - WartungsWerk
+# Technical Architecture - Torqr
 
 **Phase:** Technical Design
 **Date:** December 11, 2024
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-This document defines the complete technical architecture for WartungsWerk MVP, optimized for mobile-first, offline-capable operation on a bootstrap budget (€0/month hosting MVP phase).
+This document defines the complete technical architecture for Torqr MVP, optimized for mobile-first, offline-capable operation on a bootstrap budget (€0/month hosting MVP phase).
 
 **Key Architecture Decisions:**
 - **Monolithic Next.js 14 App** (frontend + API in one deployment)
@@ -42,7 +42,7 @@ This document defines the complete technical architecture for WartungsWerk MVP, 
 │  └──────────┘           │                                      │
 │                         ▼                                      │
 │           ┌─────────────────────────────┐                     │
-│           │    WartungsWerk Platform    │                     │
+│           │         Torqr Platform       │                     │
 │           │   (Next.js PWA Application)  │                     │
 │           │                              │                     │
 │           │  • Customer Management        │                     │
@@ -67,7 +67,7 @@ This document defines the complete technical architecture for WartungsWerk MVP, 
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
-│                 WARTUNGSWERK PLATFORM                          │
+│                    TORQR PLATFORM                              │
 │                                                                 │
 │  ┌─────────────────────────────────────────────────────────┐ │
 │  │              FRONTEND (Next.js Client)                   │ │
@@ -485,7 +485,7 @@ enum CronStatus {
 
 ### 4.1 API Structure
 
-**Base URL:** `https://wartungswerk.vercel.app/api`
+**Base URL:** `https://torqr.vercel.app/api`
 
 **Authentication:** JWT in HTTP-only cookie
 
@@ -786,7 +786,7 @@ interface OfflineDB extends DBSchema {
 }
 
 export async function initDB() {
-  return openDB<OfflineDB>('wartungswerk-offline', 1, {
+  return openDB<OfflineDB>('torqr-offline', 1, {
     upgrade(db) {
       db.createObjectStore('customers', { keyPath: 'id' });
       db.createObjectStore('heaters', { keyPath: 'id' });
@@ -858,7 +858,7 @@ export async function sendEmail({
   data: any;
 }) {
   const { data: result, error } = await resend.emails.send({
-    from: 'Max Wagner <max@wartungswerk.de>',
+    from: 'Max Wagner <max@torqr.de>',
     to,
     subject,
     react: React.createElement(template, data),
@@ -1374,7 +1374,7 @@ DIRECT_URL="postgresql://..." # for migrations
 # Authentication
 JWT_SECRET="your-secret-key-here"
 NEXTAUTH_SECRET="your-nextauth-secret"
-NEXTAUTH_URL="http://localhost:3000" # production: https://wartungswerk.de
+NEXTAUTH_URL="http://localhost:3000" # production: https://torqr.de
 
 # Email
 RESEND_API_KEY="re_..."
@@ -1392,7 +1392,7 @@ NEXT_PUBLIC_SENTRY_DSN="https://..."
 SENTRY_AUTH_TOKEN="..." # for source maps
 
 # App
-NEXT_PUBLIC_URL="https://wartungswerk.de"
+NEXT_PUBLIC_URL="https://torqr.de"
 ```
 
 ### 10.2 Deployment Process

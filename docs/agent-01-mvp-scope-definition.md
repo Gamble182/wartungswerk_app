@@ -1,4 +1,4 @@
-# MVP Scope Definition & Feature Prioritization - WartungsWerk
+# MVP Scope Definition & Feature Prioritization - Torqr
 
 **Phase:** MVP Planning
 **Date:** December 11, 2024
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-This document defines the Minimum Viable Product (MVP) scope for WartungsWerk, targeting 8-10 weeks development timeline with single-user (Max) focus. The MVP validates core value proposition: **reducing Max's admin time from 8h/week to <2h/week through automated maintenance management**.
+This document defines the Minimum Viable Product (MVP) scope for Torqr, targeting 8-10 weeks development timeline with single-user (Max) focus. The MVP validates core value proposition: **reducing Max's admin time from 8h/week to <2h/week through automated maintenance management**.
 
 **MVP Success Criteria:**
 - Max uses app daily

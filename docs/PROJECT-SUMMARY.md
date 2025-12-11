@@ -1,4 +1,4 @@
-# WartungsWerk (Drehmoment) - Project Summary & Implementation Roadmap
+# Torqr (Drehmoment) - Project Summary & Implementation Roadmap
 
 **Generated:** December 11, 2024
 **Project Status:** ✅ Planning Complete - Ready for Development
@@ -9,7 +9,7 @@
 
 ## 🎯 Executive Summary
 
-**WartungsWerk** (brand name: Drehmoment - "Der Hebel für dein Handwerk") is a mobile-first Progressive Web App designed to eliminate the €20,000/year opportunity cost self-employed heating technicians face due to manual Excel-based maintenance management.
+**Torqr** (brand name: Drehmoment - "Der Hebel für dein Handwerk") is a mobile-first Progressive Web App designed to eliminate the €20,000/year opportunity cost self-employed heating technicians face due to manual Excel-based maintenance management.
 
 **Core Value Proposition:**
 Reduce Max's administrative overhead from 8 hours/week to <2 hours/week through automated customer reminders, mobile-accessible maintenance tracking, and intelligent scheduling—all while ensuring GDPR compliance.
@@ -399,7 +399,7 @@ This project has generated **4 comprehensive planning documents** totaling over 
 ## 📋 File Structure Overview
 
 ```
-wartungswerk/
+torqr/
 ├── outputs/
 │   ├── PROJECT-SUMMARY.md (this file)
 │   ├── agent-01-business-model-canvas.md
@@ -582,7 +582,7 @@ wartungswerk/
 
 ## 🎉 Conclusion
 
-WartungsWerk is a **well-defined, thoroughly planned, technically feasible project** ready for development. With:
+Torqr is a **well-defined, thoroughly planned, technically feasible project** ready for development. With:
 
 ✅ **Clear business model** (Bootstrap MVP → SaaS expansion)
 ✅ **Validated problem** (Max's €20k/year opportunity cost)

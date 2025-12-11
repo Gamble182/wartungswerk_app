@@ -1,4 +1,4 @@
-# GDPR Compliance Framework - WartungsWerk
+# GDPR Compliance Framework - Torqr
 
 **Phase:** Conception
 **Date:** December 11, 2024
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-WartungsWerk processes personal data of Max's customers (homeowners/property managers) for maintenance scheduling purposes. Under GDPR, Max is the **Verantwortlicher** (Data Controller) and WartungsWerk platform is the **Auftragsverarbeiter** (Data Processor).
+Torqr processes personal data of Max's customers (homeowners/property managers) for maintenance scheduling purposes. Under GDPR, Max is the **Verantwortlicher** (Data Controller) and Torqr platform is the **Auftragsverarbeiter** (Data Processor).
 
 **Compliance Status:** This document establishes the framework for GDPR-compliant operations. Full compliance required before processing real customer data.
 
@@ -50,7 +50,7 @@ WartungsWerk processes personal data of Max's customers (homeowners/property man
 - Must respond to data subject rights requests
 - Liable for violations (fines up to €20 million or 4% revenue)
 
-**WartungsWerk Platform (Auftragsverarbeiter / Data Processor):**
+**Torqr Platform (Auftragsverarbeiter / Data Processor):**
 - Processes data only on Max's instructions
 - Implements technical and organizational measures
 - Assists Max with data subject rights
@@ -507,7 +507,7 @@ Technische und organisatorische Maßnahmen (Verweis):
 
 **Parties:**
 - Verantwortlicher: Max (Heizungsbau Wagner o.ä.)
-- Auftragsverarbeiter: WartungsWerk GmbH / Platform operator
+- Auftragsverarbeiter: Torqr GmbH / Platform operator
 
 **Must include (Art. 28(3) GDPR):**
 - Subject matter and duration of processing

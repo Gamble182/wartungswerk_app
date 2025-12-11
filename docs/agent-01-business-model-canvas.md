@@ -1,4 +1,4 @@
-# Business Model Canvas - WartungsWerk (Drehmoment)
+# Business Model Canvas - Torqr (Drehmoment)
 
 **Phase:** Conception
 **Date:** December 11, 2024
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-WartungsWerk (brand name: Drehmoment) addresses a €20,000/year opportunity cost for self-employed heating technicians (Heizungsbauer) in Germany by replacing manual Excel-based maintenance management with automated, mobile-first scheduling and customer reminders.
+Torqr (brand name: Drehmoment) addresses a €20,000/year opportunity cost for self-employed heating technicians (Heizungsbauer) in Germany by replacing manual Excel-based maintenance management with automated, mobile-first scheduling and customer reminders.
 
 **Core Insight:** Max spends 8 hours/week on administrative overhead. Our solution reduces this to <2 hours/week, freeing 6 hours for billable work worth ~€240/week or €12,480/year.
 
@@ -327,7 +327,7 @@ WartungsWerk (brand name: Drehmoment) addresses a €20,000/year opportunity cos
 
 ### 2.2 Competitive Advantages
 
-**WartungsWerk Differentiation:**
+**Torqr Differentiation:**
 
 1. **Specialized:** Built specifically for maintenance intervals (not general scheduling)
 2. **Simple:** One primary workflow, minimal learning curve (<30 min to understand)
@@ -337,7 +337,7 @@ WartungsWerk (brand name: Drehmoment) addresses a €20,000/year opportunity cos
 6. **Ein-Mann-friendly:** No unnecessary multi-user complexity
 
 **Positioning Statement:**
-*"WartungsWerk is the specialized maintenance management platform designed exclusively for self-employed Handwerk professionals who need a simple, mobile-first tool that works in their pocket and eliminates administrative overhead—without the complexity and cost of general-purpose business software."*
+*"Torqr is the specialized maintenance management platform designed exclusively for self-employed Handwerk professionals who need a simple, mobile-first tool that works in their pocket and eliminates administrative overhead—without the complexity and cost of general-purpose business software."*
 
 ### 2.3 Market Gaps
 

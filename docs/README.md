@@ -1,10 +1,10 @@
-# WartungsWerk
+# Torqr
 
 A mobile-first PWA for heating technicians (Heizungsbauer) to manage customer maintenance schedules and automate reminder emails.
 
 ## Overview
 
-WartungsWerk helps heating technicians like Max efficiently manage their customer base, track maintenance schedules, and automatically send reminder emails to customers. Built as an offline-first Progressive Web App, it works reliably even without internet connection during on-site visits.
+Torqr helps heating technicians like Max efficiently manage their customer base, track maintenance schedules, and automatically send reminder emails to customers. Built as an offline-first Progressive Web App, it works reliably even without internet connection during on-site visits.
 
 ## Features
 
@@ -51,7 +51,7 @@ WartungsWerk helps heating technicians like Max efficiently manage their custome
 1. Clone the repository:
 ```bash
 git clone <your-repo-url>
-cd wartungswerk-app
+cd torqr-app
 ```
 
 2. Install dependencies:
@@ -82,7 +82,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 ## Project Structure
 
 ```
-wartungswerk-app/
+torqr-app/
 ├── app/                    # Next.js App Router
 │   ├── (auth)/            # Authentication pages
 │   ├── (dashboard)/       # Protected dashboard pages

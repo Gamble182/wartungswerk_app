@@ -1,4 +1,4 @@
-# WartungsWerk - Developer Setup Guide
+# Torqr - Developer Setup Guide
 
 **Version:** 1.0
 **Date:** December 11, 2024
@@ -8,7 +8,7 @@
 
 ## 🎯 Overview
 
-This guide walks you through setting up your development environment to build WartungsWerk from scratch. By the end, you'll have a running Next.js application with database, authentication, and all services configured.
+This guide walks you through setting up your development environment to build Torqr from scratch. By the end, you'll have a running Next.js application with database, authentication, and all services configured.
 
 ---
 
@@ -16,10 +16,10 @@ This guide walks you through setting up your development environment to build Wa
 
 ### Option A: New Repository (RECOMMENDED)
 
-Create a **separate git repository** for the WartungsWerk application:
+Create a **separate git repository** for the Torqr application:
 
 ```
-wartungswerk-app/                    # NEW GIT REPO
+torqr-app/                    # NEW GIT REPO
 ├── docs/                             # Copy planning documents here
 │   ├── business-model-canvas.md
 │   ├── mvp-scope-definition.md
@@ -47,7 +47,7 @@ wartungswerk-app/                    # NEW GIT REPO
 ```
 
 **Why separate repo?**
-- ✅ Clean separation: Jarvis = planning, wartungswerk-app = actual product
+- ✅ Clean separation: Jarvis = planning, torqr-app = actual product
 - ✅ Easier deployment (Vercel connects to one repo)
 - ✅ Cleaner git history for the product
 - ✅ Can share with Max or team without Jarvis system
@@ -118,7 +118,7 @@ You could create a subfolder in jarvis, but this mixes planning with development
 **Steps:**
 1. Sign up with GitHub
 2. Create new project:
-   - Name: `wartungswerk-mvp`
+   - Name: `torqr-mvp`
    - Database Password: Generate strong password (save in password manager!)
    - Region: **Europe (Frankfurt) or Europe (Ireland)** (for GDPR!)
    - Plan: Free (sufficient for MVP)
@@ -143,13 +143,13 @@ You could create a subfolder in jarvis, but this mixes planning with development
 1. Sign up with email
 2. Verify email
 3. Go to API Keys
-4. Create API Key:
-   - Name: "WartungsWerk MVP"
+4. Create API Key: "re_Xj5CfBts_5QuTgZJtjx5SyCqwG1aPcHb5"
+   - Name: "Torqr MVP"
    - Permission: Full Access
    - Copy API key immediately (only shown once!)
 
 **Domain Setup (Do Later Before Go-Live):**
-1. Add domain: `wartungswerk.de` (or your chosen domain)
+1. Add domain: `torqr.de` (or your chosen domain)
 2. Add DNS records (SPF, DKIM, DMARC) - Resend provides exact values
 3. Verify domain
 
@@ -168,7 +168,7 @@ You could create a subfolder in jarvis, but this mixes planning with development
 1. Sign up with GitHub
 2. Create new project:
    - Platform: Next.js
-   - Name: wartungswerk-mvp
+   - Name: torqr-mvp
 3. Copy DSN (Data Source Name)
 
 **What you'll get:**
@@ -185,7 +185,7 @@ You could create a subfolder in jarvis, but this mixes planning with development
 ```bash
 # On GitHub.com:
 # 1. Click "New Repository"
-# 2. Name: wartungswerk-app
+# 2. Name: torqr-app
 # 3. Description: "SaaS maintenance management platform for Handwerk professionals"
 # 4. Private (recommended until launch)
 # 5. Initialize with README: YES
@@ -204,8 +204,8 @@ You could create a subfolder in jarvis, but this mixes planning with development
 cd C:\Users\y.dorth\Documents\Development_Private
 
 # Clone the new repository
-git clone https://github.com/YOUR-USERNAME/wartungswerk-app.git
-cd wartungswerk-app
+git clone https://github.com/YOUR-USERNAME/torqr-app.git
+cd torqr-app
 
 # Verify you're in the right place
 git remote -v  # Should show your GitHub repo
@@ -221,10 +221,10 @@ mkdir docs
 
 # Copy all planning documents from jarvis outputs folder
 # From PowerShell or Git Bash:
-cp ../jarvis/projects/active/wartungswerk/outputs/*.md docs/
+cp ../jarvis/projects/active/torqr/outputs/*.md docs/
 
 # Also copy the original requirements for reference
-cp ../jarvis/projects/active/wartungswerk/context/*.md docs/
+cp ../jarvis/projects/active/torqr/context/*.md docs/
 
 # Verify copied
 ls docs/
@@ -652,7 +652,7 @@ vercel link
 # ✔ Set up and deploy? Yes
 # ✔ Which scope? Your personal account
 # ✔ Link to existing project? No
-# ✔ What's your project's name? wartungswerk-app
+# ✔ What's your project's name? torqr-app
 # ✔ In which directory is your code located? ./
 
 # Deploy to preview
@@ -663,7 +663,7 @@ vercel --prod
 ```
 
 **Add environment variables in Vercel dashboard:**
-1. Go to https://vercel.com/YOUR_USERNAME/wartungswerk-app
+1. Go to https://vercel.com/YOUR_USERNAME/torqr-app
 2. Settings → Environment Variables
 3. Add all variables from `.env.local`
 4. Separate for Production, Preview, Development
