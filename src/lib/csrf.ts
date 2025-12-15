@@ -1,73 +1,128 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 
+const CSRF_TOKEN_COOKIE = 'csrf-token';
+const CSRF_TOKEN_HEADER = 'x-csrf-token';
+const CSRF_TOKEN_LENGTH = 32;
+
 /**
- * Generate a CSRF token
+ * Generate a CSRF token using Double Submit Cookie pattern
  * @returns CSRF token string
  */
 export function generateCsrfToken(): string {
-  return crypto.randomBytes(32).toString('hex');
+  return crypto.randomBytes(CSRF_TOKEN_LENGTH).toString('base64');
 }
 
 /**
- * Verify CSRF token from request
- * @param request - NextRequest object
- * @param expectedToken - Expected CSRF token (from session)
- * @returns boolean indicating if token is valid
+ * Set CSRF token in response cookies
+ * @param response - NextResponse object
+ * @param token - CSRF token to set
  */
-export function verifyCsrfToken(
-  request: NextRequest,
-  expectedToken: string
-): boolean {
-  // Get token from header or body
-  const headerToken = request.headers.get('x-csrf-token');
+export function setCsrfTokenCookie(
+  response: NextResponse,
+  token: string
+): void {
+  response.cookies.set(CSRF_TOKEN_COOKIE, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    path: '/',
+    maxAge: 60 * 60 * 24, // 24 hours
+  });
+}
 
-  if (!headerToken || !expectedToken) {
+/**
+ * Get CSRF token from request cookies
+ * @param request - NextRequest object
+ * @returns CSRF token or null
+ */
+export function getCsrfTokenFromCookie(request: NextRequest): string | null {
+  return request.cookies.get(CSRF_TOKEN_COOKIE)?.value || null;
+}
+
+/**
+ * Get CSRF token from request header
+ * @param request - NextRequest object
+ * @returns CSRF token or null
+ */
+export function getCsrfTokenFromHeader(request: NextRequest): string | null {
+  return request.headers.get(CSRF_TOKEN_HEADER);
+}
+
+/**
+ * Validate CSRF token using Double Submit Cookie pattern
+ * @param request - NextRequest object
+ * @returns true if valid, false otherwise
+ */
+export function validateCsrfToken(request: NextRequest): boolean {
+  const tokenFromCookie = getCsrfTokenFromCookie(request);
+  const tokenFromHeader = getCsrfTokenFromHeader(request);
+
+  // Both tokens must exist and match
+  if (!tokenFromCookie || !tokenFromHeader) {
+    return false;
+  }
+
+  // Ensure both tokens are the same length before comparison
+  if (tokenFromCookie.length !== tokenFromHeader.length) {
     return false;
   }
 
   // Constant-time comparison to prevent timing attacks
-  return crypto.timingSafeEqual(
-    Buffer.from(headerToken),
-    Buffer.from(expectedToken)
-  );
+  try {
+    return crypto.timingSafeEqual(
+      Buffer.from(tokenFromCookie),
+      Buffer.from(tokenFromHeader)
+    );
+  } catch {
+    return false;
+  }
 }
 
 /**
- * CSRF protection middleware
+ * CSRF protection middleware for API routes using Double Submit Cookie pattern
  * Note: NextAuth v5 already provides CSRF protection for auth routes.
  * This utility is for custom API routes that need CSRF protection.
  *
  * Usage:
- * 1. Store CSRF token in session when rendering form
- * 2. Include token in form submissions via header: x-csrf-token
- * 3. Validate token using this function
+ * 1. Generate and set CSRF token cookie on initial page load or auth
+ * 2. Client includes token in request header: x-csrf-token
+ * 3. Middleware validates cookie matches header
+ *
+ * @param request - NextRequest object
+ * @returns Response object if validation fails, null otherwise
  */
-export function csrfProtection(
-  request: NextRequest,
-  sessionToken: string
-): Response | null {
+export function csrfProtection(request: NextRequest): Response | null {
+  const method = request.method.toUpperCase();
+
   // Only check CSRF for state-changing methods
-  const method = request.method;
-  if (method === 'GET' || method === 'HEAD' || method === 'OPTIONS') {
-    return null;
+  if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+    if (!validateCsrfToken(request)) {
+      return new Response(
+        JSON.stringify({
+          error: 'CSRF validation failed',
+          message: 'Invalid or missing CSRF token',
+        }),
+        {
+          status: 403,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    }
   }
 
-  // Verify CSRF token
-  if (!verifyCsrfToken(request, sessionToken)) {
-    return new Response(
-      JSON.stringify({
-        error: 'Invalid CSRF token',
-        message: 'CSRF token validation failed',
-      }),
-      {
-        status: 403,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-  }
+  return null; // No CSRF error
+}
 
-  return null;
+/**
+ * Generate and set a new CSRF token for a response
+ * @param response - NextResponse object
+ * @returns The generated token
+ */
+export function setNewCsrfToken(response: NextResponse): string {
+  const token = generateCsrfToken();
+  setCsrfTokenCookie(response, token);
+  return token;
 }

@@ -97,7 +97,7 @@ export function getClientIdentifier(request: NextRequest): string {
 }
 
 /**
- * Rate limit middleware for API routes
+ * Rate limit middleware for API routes (IP-based)
  * @param request - NextRequest object
  * @param config - Rate limit configuration
  * @returns Response object if rate limited, null otherwise
@@ -133,3 +133,59 @@ export function rateLimitMiddleware(
 
   return null; // No rate limit response needed
 }
+
+/**
+ * Rate limit middleware for authenticated API routes (user-based)
+ * @param request - NextRequest object
+ * @param userId - User ID from authentication
+ * @param config - Rate limit configuration
+ * @returns Response object if rate limited, null otherwise
+ */
+export function rateLimitByUser(
+  request: NextRequest,
+  userId: string,
+  config?: RateLimitConfig
+) {
+  // Use user ID as identifier for rate limiting
+  const identifier = `user:${userId}`;
+  const result = rateLimit(identifier, config);
+
+  if (!result.success) {
+    const retryAfter = Math.ceil((result.resetTime - Date.now()) / 1000);
+
+    return new Response(
+      JSON.stringify({
+        error: 'Too many requests',
+        message: 'Rate limit exceeded. Please try again later.',
+        retryAfter,
+      }),
+      {
+        status: 429,
+        headers: {
+          'Content-Type': 'application/json',
+          'Retry-After': retryAfter.toString(),
+          'X-RateLimit-Limit': config?.maxRequests.toString() || '100',
+          'X-RateLimit-Remaining': result.remaining.toString(),
+          'X-RateLimit-Reset': result.resetTime.toString(),
+        },
+      }
+    );
+  }
+
+  return null; // No rate limit response needed
+}
+
+/**
+ * Rate limit configuration presets
+ */
+export const RATE_LIMIT_PRESETS = {
+  // Authentication endpoints
+  LOGIN: { interval: 15 * 60 * 1000, maxRequests: 10 }, // 10 per 15 minutes
+  REGISTER: { interval: 15 * 60 * 1000, maxRequests: 5 }, // 5 per 15 minutes
+
+  // General API endpoints (per user)
+  API_USER: { interval: 60 * 1000, maxRequests: 100 }, // 100 per minute
+
+  // File upload endpoints (per user)
+  FILE_UPLOAD: { interval: 60 * 1000, maxRequests: 10 }, // 10 per minute
+} as const;

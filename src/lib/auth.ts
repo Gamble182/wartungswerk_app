@@ -61,9 +61,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           };
         } catch (error) {
           // Handle validation errors
-          if (error instanceof z.ZodError) {
-            console.error('Login validation error:', error.errors);
-          }
+          console.error('Login error:', error);
           return null;
         }
       },

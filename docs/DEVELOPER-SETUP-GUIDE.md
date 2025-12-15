@@ -712,21 +712,21 @@ Follow this checklist for your first week:
 - [x] Dev server running
 
 **Day 3-4: Authentication**
-- [ ] Implement registration endpoint
-- [ ] Implement login endpoint
-- [ ] Implement JWT token generation
-- [ ] Create login/register pages
-- [ ] Test auth flow
+- [x] Implement registration endpoint
+- [x] Implement login endpoint
+- [x] Implement JWT token generation
+- [x] Create login/register pages
+- [x] Test auth flow
 
 **Day 5: Security Basics**
-- [ ] Add input validation (Zod)
-- [ ] Add rate limiting
-- [ ] Add CSRF protection
-- [ ] Security audit checklist
+- [x] Add input validation (Zod)
+- [x] Add rate limiting
+- [x] Add CSRF protection
+- [x] Security audit checklist
 
 **Weekend: Documentation & Planning**
-- [ ] Read MVP scope document in full
-- [ ] Plan Sprint 2 (Customer Management)
+- [x] Read MVP scope document in full
+- [x] Plan Sprint 2 (Customer Management) - See `SPRINT-02-CUSTOMER-MANAGEMENT.md`
 - [ ] Set up project management (GitHub Issues or Trello)
 
 ---

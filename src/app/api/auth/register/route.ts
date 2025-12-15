@@ -1,28 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { hashPassword } from '@/lib/password';
-import { rateLimitMiddleware } from '@/lib/rate-limit';
-
-// Validation schema
-const registerSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number'),
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  phone: z.string().optional(),
-});
+import { rateLimitMiddleware, RATE_LIMIT_PRESETS } from '@/lib/rate-limit';
+import { userRegistrationSchema, safeValidateRequest } from '@/lib/validations';
 
 export async function POST(request: NextRequest) {
   // Apply rate limiting: 5 registration attempts per 15 minutes
-  const rateLimitResponse = rateLimitMiddleware(request, {
-    interval: 15 * 60 * 1000, // 15 minutes
-    maxRequests: 5,
-  });
+  const rateLimitResponse = rateLimitMiddleware(
+    request,
+    RATE_LIMIT_PRESETS.REGISTER
+  );
 
   if (rateLimitResponse) {
     return rateLimitResponse;
@@ -31,8 +18,20 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    // Validate input
-    const validatedData = registerSchema.parse(body);
+    // Validate input using the validation library
+    const validationResult = safeValidateRequest(userRegistrationSchema, body);
+
+    if (!validationResult.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: validationResult.errors,
+        },
+        { status: 400 }
+      );
+    }
+
+    const validatedData = validationResult.data;
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
@@ -74,20 +73,6 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    // Handle validation errors
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        {
-          error: 'Validation failed',
-          details: error.errors.map((err) => ({
-            field: err.path.join('.'),
-            message: err.message,
-          })),
-        },
-        { status: 400 }
-      );
-    }
-
     // Handle other errors
     console.error('Registration error:', error);
     return NextResponse.json(
