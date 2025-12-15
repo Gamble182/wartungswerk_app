@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { hashPassword } from '@/lib/password';
+import { rateLimitMiddleware } from '@/lib/rate-limit';
 
 // Validation schema
 const registerSchema = z.object({
@@ -17,6 +18,16 @@ const registerSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
+  // Apply rate limiting: 5 registration attempts per 15 minutes
+  const rateLimitResponse = rateLimitMiddleware(request, {
+    interval: 15 * 60 * 1000, // 15 minutes
+    maxRequests: 5,
+  });
+
+  if (rateLimitResponse) {
+    return rateLimitResponse;
+  }
+
   try {
     const body = await request.json();
 

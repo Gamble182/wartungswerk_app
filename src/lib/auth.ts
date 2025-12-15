@@ -1,8 +1,15 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
+import { z } from 'zod';
 import { prisma } from './prisma';
 import { verifyPassword } from './password';
 import type { User as PrismaUser } from '@prisma/client';
+
+// Validation schema for login credentials
+const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(1, 'Password is required'),
+});
 
 // Extend the built-in session types
 declare module 'next-auth' {
@@ -24,35 +31,41 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        try {
+          // Validate credentials using Zod
+          const validatedData = loginSchema.parse(credentials);
+
+          const { email, password } = validatedData;
+
+          // Find user by email
+          const user = await prisma.user.findUnique({
+            where: { email },
+          });
+
+          if (!user) {
+            return null;
+          }
+
+          // Verify password
+          const isValidPassword = await verifyPassword(password, user.passwordHash);
+
+          if (!isValidPassword) {
+            return null;
+          }
+
+          // Return user object (will be available in JWT callback)
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+          };
+        } catch (error) {
+          // Handle validation errors
+          if (error instanceof z.ZodError) {
+            console.error('Login validation error:', error.errors);
+          }
           return null;
         }
-
-        const email = credentials.email as string;
-        const password = credentials.password as string;
-
-        // Find user by email
-        const user = await prisma.user.findUnique({
-          where: { email },
-        });
-
-        if (!user) {
-          return null;
-        }
-
-        // Verify password
-        const isValidPassword = await verifyPassword(password, user.passwordHash);
-
-        if (!isValidPassword) {
-          return null;
-        }
-
-        // Return user object (will be available in JWT callback)
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-        };
       },
     }),
   ],
